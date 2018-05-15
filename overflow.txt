@@ -1,0 +1,68 @@
+<h1 class="center_it">Discover Plants!</h1>
+				
+				<div class="center_it" id="center_it">
+						
+					<div class="info_box">
+						
+						<p>Hundreds of plants! Right at your finger tips. Click on the button below to start learning what is in the Erwin Wildlife Management Area.</p>
+				
+					</div>
+						
+				</div>
+						
+				<br>
+	
+				<br>
+
+				<div class="center_it">
+				
+					<a href="<?php echo $app_path . 'plant_catalogue';?>" class="center_it">
+					
+						<img src="<?php echo $app_path . 'images/discover_submit.png';?>" class="button_img">
+					
+					</a>
+				
+				</div>
+				
+				
+				
+				<h1 class="center_it">Discover Botany!</h1>
+				
+				<div class="center_it" id="center_it">
+					
+					<div class="info_box">
+				
+						<p>Hundreds of plant terms! Right at your finger tips. Click on the button below to start learning the terminology you need to understand the flora of EWMA.</p>
+					
+					</div>
+				
+				</div>
+							
+				<br>
+							
+				<br>
+				
+				<div class="center_it">
+				
+					<a href="<?php echo $app_path . 'plant_catalogue';?>" class="center_it">
+					
+						<img src="<?php echo $app_path . 'images/discover_submit.png';?>" class="button_img">
+					
+					</a>
+				
+				</div>
+				
+				
+				
+				font-family: fontawesome;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	letter-spacing: 1px;
+	color: #555555;
+	width: 50%;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	padding-left: 10px;
+	padding-right: 10px;
+
+	

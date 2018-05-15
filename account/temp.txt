@@ -1,0 +1,91 @@
+<div id="searchStuff">
+				
+				<div id="results_div_wrapper">
+
+					<div id="resultsDiv">
+				
+						<?php
+						echo 'Welcome, ' . $_SESSION['user']['first_name'];
+						echo '<form action="." method="post"><input type="hidden" name="do_this" value="logout"><input type="submit" value="logout"></form>';?>
+				
+					</div>
+					
+				</div>
+					
+					<?php $_SESSION['list_session'] = array();
+	
+					$user_id = $_SESSION['user']['user_id'];
+		
+					$lists = get_lists($user_id);?>
+					
+					<!--Insert here the landing code, which consists of a dashboard of functionality. Account-->
+					
+				<div id="wrapper_wrapper">
+				
+					<div id="account_button_wrapper">
+				
+						<div id="first" class="account_button">
+					
+							<p>here it is</p>
+					
+						</div>
+				
+						<div id="second" class="account_button">
+						
+							<p>here it is</p>
+					
+						</div>
+					
+						<div id="third" class="account_button">
+					
+							<p>here it is</p>
+					
+						</div>
+					
+						<div id="fourth" class="account_button">
+							
+							<p>here it is</p>
+					
+						</div>
+					
+					</div>	
+				
+				</div>
+				
+					<!--Transfer the table below to a different file, one that loads after click on view lists button, whereever that is.-->
+					
+					<table>
+						
+						<tr>
+							
+							<td class="common_names">List ID</td>
+
+							<td class="common_names">List Name</td>
+							
+							<td class="common_names">List Date</td>
+						
+						</tr>
+						
+						<?php foreach ($lists as $list):
+			
+							$list_id = $list['list_id'];
+							$list_name = $list['list_name'];
+							$user_id = $list['user_id'];
+							$list_comment = $list['list_comment'];
+							$list_date =  $list['list_date'];?>
+						
+						<tr>
+							
+							<td class="common_names"><?php echo $list_id;?></td>
+							
+							<td class="common_names"><a id="species_links" href=#><?php echo $list_name;?></a></td>
+							
+							<td class="common_names"><?php echo $list_date;?></td>
+						
+						</tr>
+				
+						<?php endforeach; ?>
+					
+					</table>
+					
+			</div>
