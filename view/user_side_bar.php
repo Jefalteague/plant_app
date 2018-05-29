@@ -3,7 +3,7 @@
 					<p class="center_it">Browse By:</p>
 					
 						<!--<button> seems to not allow the link to work. have to find other way to format <div>-->
-						<!--These links should be generated programatically with php, from the respective db tables, where applicable.-->
+						<!--These links should be generated programatically with php, from the respective db tables, where applicable?-->
 						
 						<div class='buttonBox'>
 						

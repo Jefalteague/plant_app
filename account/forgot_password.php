@@ -25,6 +25,7 @@ if(!empty($sessData['status']['msg'])){
 		<label for="user_email">Please enter your email, and we will send you password reset instructions.</label>
 		
 		<input type="text" name="member_email" placeholder="EMAIL" tabindex="1">
+		<p class="warning"><?php if(!empty($fields[2]['message'])){echo $fields[2]['message'];}?></p>
 		
 		<input type="image" src="<?php echo $app_path . 'images/register.png';?>" alt="too bad" tabindex="2">
 		

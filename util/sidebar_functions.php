@@ -4,7 +4,7 @@ function side_bar($selections){
 	global $app_path; /*note: mega trouble here! i hadn't used global $appPath, and was including util/main. this caused sooooo much grief!
 	when trying to create the function for redirecting in the util/main file, i was getting a fatal error saying that i was trying to redeclare 
 	a function that i just declared. by messing around, i managed to track it to this spot by noticing that the side_bar_functions weren't working properly.
-	now i hope that i have it. fingers crossed.*/
+	now i hope that i have it. fingers crossed. this is all about attention to scope. app_path is a global variable, which must be accessed with global keyword.*/
 	##require_once('../model/get_plants_database_functions.php');	
 	$get = 'get_';	
 	

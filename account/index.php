@@ -14,7 +14,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 //Load composer's autoloader
-require 'vendor/autoload.php';
+require './vendor/autoload.php';
 
 $do_this = filter_input(INPUT_POST, 'do_this');
 if($do_this == null) {
@@ -44,13 +44,24 @@ switch($do_this) {
 		break;
 		
 	case 'send_email':
-		
-		##some type of validation should be coded here to ensure that the 
+	
+		$password_message = '';
+		$member_email = '';
 		if(!empty($_POST['member_email'])){
 			
 			$member_email = $_POST['member_email'];
+
+		}
+		
+		validate_email(2, $member_email);
+		
+		if(has_errors()){
+			
+			include('account/forgot_password.php');
+			break;
 			
 		}
+		
 		
 		##below: already have this as does_email_exist? can i eliminate the redundancy?
 		##$count = get_member_by_email_count($member_email);
@@ -65,8 +76,8 @@ switch($do_this) {
 			$update = update_member_temp($forgot_password_temp, $member_email, $expiration_time);
 		##need to create a control here to test for accounts not in the db, to return that error, etc.
 		} else {
-			
-			redirect('.');
+			$password_message = 'Is this your email?';
+			include('account/forgot_password.php');
 			break;
 		}
 		
@@ -75,7 +86,7 @@ switch($do_this) {
 		$member_first_name = $member['member_fname'];
 		
 
-/*
+
 		$mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 		try {
 			//Server settings
@@ -85,12 +96,18 @@ switch($do_this) {
 			$mail->SMTPAuth = true;                               // Enable SMTP authentication
 			$mail->Username = 'jefalteague@gmail.com';                 // SMTP username
 			$mail->Password = 'Ev0lk00b05!';                           // SMTP password
-			$mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
-			$mail->Port = 465;                                    // TCP port to connect to
-
+			$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+			$mail->Port = 587;                                    // TCP port to connect to
+			$mail->SMTPOptions = array(
+				'ssl' => array(
+					'verify_peer' => false,
+					'verify_peer_name' => false,
+					'allow_self_signed' => true
+				)
+);
 			//Recipients
 			$mail->setFrom('jefalteague@gmail.com', 'Jeffrey Teague');
-			$mail->addAddress('jefalteague@gmail.com', 'Jeffrey Teague');     // Add a recipient
+			$mail->addAddress($member_email, 'Jeffrey Teague');     // Add a recipient
 			// Optional name
 
 			$body = '<p><strong>Someone at this email address recently requested to change a password associated with </br>
@@ -103,13 +120,13 @@ switch($do_this) {
 			$mail->Body    = $body;
 			$mail->AltBody = strip_tags($body);
 
-			$mail->send();*/
+			$mail->send();
 			echo 'Message has been sent to ' . $member_email . '</br>';
 			echo '<a href="' . $reset_link . '">Temp Link</a>';
-		/*} catch (Exception $e) {
+		} catch (Exception $e) {
 			echo 'Message could not be sent.';
-			echo 'Mailer Error: ' . $mail->ErrorInfo;
-		}*/
+			echo ' Mailer Error: ' . $mail->ErrorInfo;
+		}
 		
 		$sessData['status']['type'] = 'success';
                 
@@ -117,39 +134,51 @@ switch($do_this) {
 		
 	case 'reset_password_form':
 	
+		$password_message = '';
 		include('reset_password_form.php');
 		
 		break;
 		
 	case 'change_password':
-		$member_email = $_POST['member_email'];
-		$new_password = $_POST['password1'];
-		$confirm_password = $_POST['password2'];
+	
+		$member_email = filter_input(INPUT_POST, 'member_email');
+		$member_password1 = $_POST['password1'];
+		$member_password2 = $_POST['password2'];
 		$temp_pass_code = $_POST['temppass'];
-		
-		echo $member_email . '</br>';
-		echo $new_password . '</br>';
-		echo $confirm_password . '</br>';
-		echo $temp_pass_code . '</br>';
-
+		$password_message = '';
 		$member_stuff = get_member_by_email($member_email);
-
 		$expiration_time = $member_stuff['pswd_timeout'];
 		
-		##only the beginning of the validation
-		$proceed_to_change = change_pw_validate ($new_password, $confirm_password, $expiration_time);
-		
-		##see if you can get the new password into the db
-		
-		if($proceed_to_change == false) {
-			echo 'too bad';
-		} else {
-			update_member_pw($new_password, $member_email);
-			echo 'good job';
+		validate_email(2, $member_email);		
+		validate_password(3, $member_password1);		
+		validate_password(4, $member_password2);		
+		change_pw_validate ($member_password1, $member_password2, $expiration_time);
+
+		if(has_errors()){
+			
+			include('account/reset_password_form.php');
+			break;
+			
 		}
 		
-		redirect('.');
+		if ($member_password1 !== $member_password2 ){
+			$password_message = 'Passwords do not match.';
+			include('account/reset_password_form.php');
+			break;
+			
+		}
 		
+		$current_date = date('Y-m-d H:i:s');
+		if($current_date >= $expiration_time ) {
+			$password_message = 'Your token expired.';
+			include('account/reset_password_form.php');
+			break;
+		}
+		
+		$new_password = $member_password1;
+		update_member_pw($new_password, $member_email);
+		redirect('.');
+
 		break;
 		
 	case 'login_register_form':
@@ -196,14 +225,10 @@ switch($do_this) {
 	
 	case 'register':
 		
-		validate_text(0, $member_fname);
-		
-		validate_text(1, $member_lname);
-		
-		validate_email(2, $member_email);
-		
-		validate_password(3, $member_password1);
-		
+		validate_text(0, $member_fname);	
+		validate_text(1, $member_lname);	
+		validate_email(2, $member_email);	
+		validate_password(3, $member_password1);	
 		validate_password(4, $member_password2);
 		
 		if(has_errors()){
@@ -231,6 +256,8 @@ switch($do_this) {
 		break;
 	
 	case 'register_form':
+	
+		$email_message = '';
 	
 		include('register_form.php');
 	

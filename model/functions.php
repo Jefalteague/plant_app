@@ -189,6 +189,16 @@ function validate_password($item, $value, $required=TRUE) {
 	
 }
 
+##can't member the othe pwvalidate, so must make new one for forgot password functionality" this is just the beginning to check that it works 10/28/17
+function change_pw_validate($password1, $password2, $expiration_time) {
+	
+	if($password1 !== $password2) {
+		$message = 'The passwords do not match.';
+		return $message;
+	}
+	
+}
+
 function has_errors() {
 	
 	global $fields;
@@ -304,20 +314,7 @@ function is_valid_member_login($member_email, $member_password1) {
     return $valid;
 }
 
-##can't member the othe pwvalidate, so must make new one for forgot password functionality" this is just the beginning to check that it works 10/28/17
-function change_pw_validate($password1, $password2, $expiration_time) {
-	
-	if($password1 !== $password2) {
-		return false;
-	}
-	
-	$current_date = date('Y-m-d H:i:s');
-	if($current_date >= $expiration_time ) {
-		return false;
-	} else {
-		return true;
-	}
-}
+
 
 ##update member pw from "forgot password functionality" 10/28/17
 function update_member_pw($member_password, $member_email) {

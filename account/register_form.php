@@ -7,45 +7,42 @@ if (!isset($email_message)) {$email_message = '';}
 
 
 ?>
+<div id="login_box">
 
-<fieldset>
-<legend>Register Your Account</legend>
-<form action="." method="post">
+	<h3 id="login">Register Your Account</h3>
 
-<input type="hidden" name="do_this" value="register">
+	<form class="login" action="." method="post">
 
-<label>First Name</label>
-<input type="text" name="member_fname" value="<?php echo $member_fname;?>">
-<?php echo $fields[0]['message'];?>
-</br></br>
+		<input type="hidden" name="do_this" value="register">
 
-<label>Last Name</label>
-<input type="text" name="member_lname" value="<?php echo $member_lname;?>">
-<?php echo $fields[1]['message'];?>
-</br></br>
+		<label>First Name</label>
+		<p class="warning"><?php if(!empty($fields[0]['message'])){echo $fields[0]['message'];}?></p>
+		<input class="focus" maxlength="30" type="text" name="member_fname" tabindex="1" placeholder="FIRST NAME" value="<?php echo $member_fname;?>"/></br>
 
-<label>Email Address</label>
-<input type="text" name="member_email" value="<?php echo $member_email;?>">
-<?php echo $fields[2]['message'];?>
-<?php echo $email_message;?>
-</br></br>
+		<label>Last Name</label>
+		<p class="warning"><?php if(!empty($fields[1]['message'])){echo $fields[1]['message'];}?></p>
+		<input class="focus" maxlength="30" type="text" name="member_lname" tabindex="2" placeholder="LAST NAME" value="<?php echo $member_lname;?>"/></br>
 
-<label>Password</label>
-<input type="password" name="member_password1">
-<?php echo $fields[3]['message'];?>
-<?php echo $password_message;?>
-</br></br>
+		<label>Email Address</label>
+		<p class="warning"><?php if(!empty($fields[2]['message'])){echo $fields[2]['message'];}?></p>
+				<span class="warning"><?php echo $email_message; ?></span><br>
+		<input class="focus" maxlength="30" type="text" name="member_email" tabindex="3" placeholder="EMAIL" value="<?php echo $member_email;?>"/>
 
-<label>Reenter Password</label>
-<input type="password" name="member_password2">
-<?php echo $fields[4]['message'];?>
-<?php echo $password_message;?>
-</br></br>
 
-<input type="submit" value="Register">
+		<label>Password</label><p class="warning"><?php if(!empty($fields[3]['message'])){echo $fields[3]['message'];}?></p>
+		<input class="focus" maxlength="30" type="password" name="member_password1" tabindex="4" placeholder="PASSWORD1"/>
+		</br>
 
-</form>
-</fieldset>
+		<label>Reenter Password</label><p class="warning"><?php if(!empty($fields[4]['message'])){echo $fields[4]['message'];}?></p>
+		<input type="password" name="member_password2" tabindex="5" placeholder="PASSWORD2"/>
+
+		
+		<input type="submit" value="Register">
+		
+	</form>
+
+</div>
+
 
 <?php 
 

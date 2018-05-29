@@ -4,7 +4,6 @@
 
 /*typical openings*/
 require_once('../util/main.php');
-
 require_once('../model/get_plants_database_functions.php');
 
 /*Get the data from the user selection and code it for this page*/

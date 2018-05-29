@@ -69,11 +69,7 @@
 
 					</div>
 				
-				<?php	
-				
-						} else {
-					
-						?>
+					<?php } else { ?>
 					
 					<div class="header_nav_box">
 
