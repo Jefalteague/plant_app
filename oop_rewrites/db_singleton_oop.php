@@ -1,9 +1,10 @@
 <?php
 /*a singleton for a dbconnection: https://phpenthusiast.com/blog/the-singleton-design-pattern-in-php*/
 class ConnectDB {
-	
+
 	private static $instance;
 	private $connection;
+	/*understand that this mires class in app context, but bear with me*/
 	private $dsn = 'mysql:host=localhost;dbname=my_guitar_shop2';
 	private $username = 'mgs_user';
 	private $password = 'pa55word';
